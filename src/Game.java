@@ -23,6 +23,10 @@ public class Game {
         player.findItem("belt");
 
 
+        Enemy ogre = new Enemy("ogre", 10, 10);
+
+        player.battle(ogre);
+
     }
 
     public static String nextLine() {

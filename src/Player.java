@@ -3,19 +3,24 @@ import java.util.ArrayList;
 /**
  * Created by branden on 2/3/16 at 11:37.
  */
-public class Player {
+public class Player extends Character{
 
 
     // Set up Vars
-    private String name, weapon, location;
+    String weapon, location;
     ArrayList<String> items = new ArrayList<>();
+
+    public Player() {
+        this.health = 20;
+        this.damage = 20;
+    }
 
 
 
     public void chooseName() {
         System.out.println("What is your name?");
         this.name = Game.nextLine();        //read in user input
-        System.out.println("Welcome, " + name);
+        System.out.printf("Welcome, %s\n" , name);
 
     }
 
@@ -46,7 +51,7 @@ public class Player {
     }
 
     public void findItem(String item) {
-        System.out.println("You have found a " + item + "! Pick it up? [y/n]");
+        System.out.printf("You have found a %s! Pick it up? [y/n]: \t", item);
         String answer = Game.nextLine();
         if (answer.equalsIgnoreCase("y")) {
             items.add(item);
