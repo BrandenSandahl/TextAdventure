@@ -1,3 +1,9 @@
+import jodd.json.JsonParser;
+import jodd.json.JsonSerializer;
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileWriter;
+import java.io.IOException;
 import java.util.Scanner;
 
 /**
@@ -13,14 +19,26 @@ public class Game {
 
         System.out.println("Welcome friend");
 
+       try {
+           player = loadGame();
+           System.out.println("Loading your game");
+       } catch (Exception e) {
+           System.out.println("Starting a new game (watch out for the Ogre. heh. heh. heh");
+       }
 
         //run methods on player
-        player.chooseName();
-        player.chooseWeapon();
-        player.chooseLocation();
-        player.findItem("shield");
-        player.findItem("boots");
-        player.findItem("belt");
+
+
+
+        if (player.name == null) player.chooseName();
+        if (player.weapon == null) player.chooseWeapon();
+        if (player.location == null) player.chooseLocation();
+
+        if (player.items.isEmpty()) {
+            player.findItem("shield");
+            player.findItem("boots");
+            player.findItem("belt");
+        }
 
 
         Enemy ogre = new Enemy("ogre", 10, 10);
@@ -42,6 +60,14 @@ public class Game {
                 case "/exit":
                     System.exit(0);
                     break;
+                case "/save":
+                    try {
+                        saveGame();
+                        System.out.println("Game Saved!");
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                    }
+                    break;
                 default:
                     System.out.println("Command not found!");
                     break;
@@ -49,6 +75,26 @@ public class Game {
             line = scanner.nextLine();
         }
         return line;
+    }
+
+    public static void saveGame() throws IOException {
+        JsonSerializer serializer = new JsonSerializer();
+        String json = serializer.include("*").serialize(player);
+
+        File f = new File("Game.json");
+        FileWriter fw = new FileWriter(f);
+        fw.write(json);
+        fw.close();
+    }
+
+    public static Player loadGame() throws FileNotFoundException {
+        File f = new File("Game.json");
+        Scanner s = new Scanner(f);
+        s.useDelimiter("\\Z");
+        String contents = s.next();
+
+        JsonParser parser = new JsonParser();
+        return parser.parse(contents, Player.class);
     }
 
 }

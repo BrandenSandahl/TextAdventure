@@ -10,6 +10,19 @@ public class Player extends Character{
     String weapon, location;
     ArrayList<String> items = new ArrayList<>();
 
+
+    public String getWeapon() {
+        return weapon;
+    }
+
+    public String getLocation() {
+        return location;
+    }
+
+    public ArrayList<String> getItems() {
+        return items;
+    }
+
     public Player() {
         this.health = 20;
         this.damage = 20;
