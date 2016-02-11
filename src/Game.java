@@ -23,7 +23,7 @@ public class Game {
            player = loadGame();
            System.out.println("Loading your game");
        } catch (Exception e) {
-           System.out.println("Starting a new game (watch out for the Ogre. heh. heh. heh");
+           System.out.println("Starting a new game");
        }
 
         //run methods on player
